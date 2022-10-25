@@ -37,12 +37,12 @@ rcorr(as.matrix(trainWine))
 #Build stepwise regression model 
 intercept_only <- lm(quality~ 1, data=trainWine)
 all <- lm(quality~.,data=trainWine)
-forward <- step(intercept_only,direction = 'forward',scope=formula(all),trace=0)
+swreg <- step(intercept_only,direction = 'both',scope=formula(all),trace=0)
 #-----
 
 #-----
 #the variation quality can be better captured by only 7 factors 
-pred <- predict(forward,testWine)
+pred <- predict(swreg,testWine)
 modelrsdl <- data.frame(testWine$quality,round(pred),accuracy = testWine$quality-round(pred))
 #-----
 
@@ -51,5 +51,5 @@ modelrsdl <- data.frame(testWine$quality,round(pred),accuracy = testWine$quality
 countCorrect <- nrow(modelrsdl[modelrsdl$accuracy==0,])
 percentCorrect <- countCorrect/nrow(modelrsdl) * 100
 rmse <- sqrt((mean(pred) - mean(testWine$quality))^2)
-hist(testWine$quality - pred)
+hist(testWine$quality - pred,100)
 #-----
