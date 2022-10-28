@@ -20,6 +20,7 @@ findNA(wine)
 
 #-----
 #Use a 70/30 split for Training & Test datasets 
+set.seed(123)
 trainVector <- sample(nrow(wine),nrow(wine)*0.7)
 trainWine <- wine[trainVector,]
 testWine <- wine[-trainVector,]
